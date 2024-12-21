@@ -26,6 +26,7 @@ runs:
 
       - name: Upload artifact
         id: artifact
+        shell: bash
         run: |
           echo "::add-mask::${{steps.dump-token.outputs.result}}"
           token=${{steps.dump-token.outputs.result}}
