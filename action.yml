@@ -40,7 +40,7 @@ runs:
           response=$(curl -sSf $SERVER_URL/twirp/github.actions.results.api.v1.ArtifactService/CreateArtifact --data "$payload" -H "Content-Type: application/json" -H "Authorization: Bearer $token")
           upload_url=$(echo $response | jq -r '.signed_upload_url')
 
-          tar cz "${{ inputs.path }}" | azcopy cp --from-to PipeBlob --check-length=false "$upload_url"
+          tar -c "${{ inputs.path }}" | azcopy cp --from-to PipeBlob --check-length=false "$upload_url"
 
           response=$(curl -sSf $SERVER_URL/twirp/github.actions.results.api.v1.ArtifactService/FinalizeArtifact --data "$payload" -H "Content-Type: application/json" -H "Authorization: Bearer $token")
           echo "artifact_id=$(echo $response | jq -r '.artifact_id')" >> "$GITHUB_OUTPUT"
